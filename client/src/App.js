@@ -1,11 +1,14 @@
+import 'bootstrap/dist/css/bootstrap.min.css';
+import { Container } from 'react-bootstrap';
 import MakeRental from "./makerental";
-import Task from "./task";
 
 function App() {
   return (
     <div className="App">
-      <Task />
-      <MakeRental />
+      <Container fluid='sm'>
+         <MakeRental />
+      </Container>
+     
     </div>
   );
 }
