@@ -1,0 +1,3 @@
+GET http://localhost:3001/car/cat02/brand97  HTTP/1.1
+####
+GET http://localhost:3001/category HTTP/1.1
