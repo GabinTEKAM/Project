@@ -14,8 +14,9 @@ app.get('/category', (req, res) => {
         .catch( err  => res.status(500).json(err));
 });
 
-app.get('/car/:id_cat/:id_brand', (req, res) => {
-    dao.Car(req.params.id_cat , req.params.id_brand )
+app.get('/car/', (req, res) => {
+    console.log(`req.query.id_cat`, req.query.id_cat)
+    dao.Car(req.query.id_cat )
     .then( task => {
         if(!task)
             res.status(404).send();

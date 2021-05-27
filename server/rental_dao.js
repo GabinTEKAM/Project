@@ -48,16 +48,23 @@ exports.getBrand = () => {
 
 
 
-exports.Car = (cat, brand) => {
-  return new Promise((resolve, reject) => {
-    const query = `Select count(*) from cars 
-    Inner join 
-    category cat  on cat.id_cat  = cars.id_cat 
-    inner join brand b on  cars.id_brand = b.id_brand
-    where  cars.id_cat = ? and cars.id_brand= ? `  ;
-    db.all(query, [cat, brand] ,(err, rows) => {
+exports.Car = (cat) => {
+  console.log(`cat`, cat)
+  let params = "?" 
+  for (let param = 0; param < cat.length-1; param++) {
+      params += ", ?"
+    
+  }
+ console.log(`params`, params)
+  return new Promise((resolve, reject) => { 
+    const query = `Select model, feesperday from cars Inner join
+     category cat  on cat.id_cat  = cars.id_cat 
+     where  cars.id_cat in ( ${params} ) limit 5  `  ;
+
+    db.all(query, cat ,(err, rows) => {
       if(err)
-        reject(err);
+     { console.log(`query`, err)
+        reject(err);}
       else if(rows.length === 0)
         resolve(undefined);
       else{

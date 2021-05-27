@@ -5,9 +5,11 @@ import DATE from './date';
 import Driver from './driver';
 import { CategoryBox } from "./list_checkbox"
 import OPTION from './option_rent';
-
+import { Redirect } from 'react-router-dom'
 
 function MakeRental(props) {
+    const [cars, setCars] = useState([]);
+    const [submitted, setSubmitted] = useState(false)
     const [loading, setLoading] = useState(true)
     const [details, setdetails] = useState([])
     const [selectedCategory, setSelectedCategory] = useState([])
@@ -29,12 +31,21 @@ function MakeRental(props) {
         })
     }, [])
 
+    useEffect(() => {
+        let a = []
+        if (selectedCategory.length) {
+                API.getCar(selectedCategory)
+                .then(res=> console.log(`res`, res))
+        }
+        else setCars()
+      
+
+    }, [selectedCategory])
     const handleSubmit = (event) => {
         const form = event.currentTarget;
         if (form.checkValidity()) {
             //    event.preventDefault(); 
             //     event.stopPropagation();
-
             let rent = {
                 startDate: startDate,
                 endDate: endDate,
@@ -67,10 +78,6 @@ function MakeRental(props) {
                 <Row>
                     <DATE.StartDate startDate={startDate} setStartdate={setStartdate} />
                     <DATE.EndDate endDate={endDate} setEnddate={setEnddate} />
-
-
-
-
                     {
                         loading ? 'waiting' : <> <CategoryBox category={details[0]}
                             selectedCategory={selectedCategory}

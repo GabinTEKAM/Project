@@ -1,3 +1,6 @@
-GET http://localhost:3001/car/cat02/brand97  HTTP/1.1
+
+let  a =id_cat[]=cat23&id_cat[]=cat02
+####
+GET http://localhost:3001/car/?a HTTP/1.1
 ####
 GET http://localhost:3001/category HTTP/1.1
