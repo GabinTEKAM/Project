@@ -13,7 +13,9 @@ function Distance(props) {
         <div>
             <Form.Group >
                 <Form.Label inline='true '>Estimated Km per day: &nbsp; &nbsp;  </Form.Label>
-                <Form.Control type='number' required placeholder='Enter estimated Km/day' value={props.distance}
+                <Form.Control type='number' min='1'
+                required placeholder='Enter estimated Km/day'
+                 value={props.distance}
                     onChange={event => props.setdistance(event.target.value)}
                 ></Form.Control>
                 <Form.Control.Feedback type='invalid'>Enter distance er day </Form.Control.Feedback>
@@ -32,7 +34,7 @@ function ExtraInsurance(props) {
                 <Form.Label>Extra insurance  &nbsp; &nbsp; &nbsp; </Form.Label>
 
                 <Form.Check inline >
-                    <Form.Check.Input required name='extra'
+                    <Form.Check.Input required name='extra' type='radio'
                         onClick={click(props.extraInsurance, 'extra')}
                         checked={props.extraInsurance === true ? "checked" : ''}
                         onChange={() => props.setExtraInsurance(true)}
@@ -40,7 +42,7 @@ function ExtraInsurance(props) {
                     <Form.Check.Label>Yes</Form.Check.Label>
                 </Form.Check>
                 <Form.Check inline>
-                    <Form.Check.Input required
+                    <Form.Check.Input required type='radio'
                         name='extra'
                         checked={props.extraInsurance === false ? "checked" : ''}
                         onChange={() => props.setExtraInsurance(false)} onClick={click(props.extraInsurance, 'extra')}
@@ -63,7 +65,7 @@ function AutoConfig(props) {
                 <Form.Label>Interactive config &nbsp; &nbsp; &nbsp; </Form.Label>
 
                 <Form.Check inline  >
-                    <Form.Check.Input required name='autoconf'
+                    <Form.Check.Input required name='autoconf' type='radio'
                         checked={props.interactiveConfig === true ? "checked" : ''}
                         onClick={click(props.interactiveConfig, 'autoconf')}
                         onChange={() => props.setInteractiveConfig(true)}
@@ -71,7 +73,7 @@ function AutoConfig(props) {
                     <Form.Check.Label>yes</Form.Check.Label>
                 </Form.Check>
                 <Form.Check inline>
-                    <Form.Check.Input required name='autoconf'
+                    <Form.Check.Input required name='autoconf' type= 'radio '
                         checked={props.interactiveConfig === false ? "checked" : ''}
                         onClick={click(props.interactiveConfig, 'autoconf')}
                         onChange={() => props.setInteractiveConfig(false)

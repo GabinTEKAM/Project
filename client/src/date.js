@@ -1,3 +1,4 @@
+import dayjs from 'dayjs';
 import React from 'react';
 import { Col, Form, Row } from 'react-bootstrap';
 
@@ -11,8 +12,8 @@ function StartDate(props) {
                     <Form.Control
                         required
                         type="date"
-                        value={props.startDate}
-                        onChange={(event) => props.setStartdate(event.target.value)}
+                         value={props.startDate ? props.startDate.format('YYYY-MM-DD'): ""}
+                        onChange={(event) => props.setStartdate(dayjs(event.target.value))}
                     />
                     <Form.Control.Feedback type='invalid'>Please select one date</Form.Control.Feedback>
                 </Col>
@@ -30,8 +31,8 @@ function EndDate(props) {
                     <Form.Control
                         required
                         type="date"
-                        value={props.endDate}
-                        onChange={(event) => props.setEnddate(event.target.value)}
+                        value={props.endDate ? props.endDate.format('YYYY-MM-DD'): ""}
+                        onChange={(event) => props.setEnddate(dayjs(event.target.value))}
 
                     />
                     <Form.Control.Feedback  type='invalid'>Please select one date</Form.Control.Feedback>

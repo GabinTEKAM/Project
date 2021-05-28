@@ -1,5 +1,8 @@
 'use strict'
+
+
 const dayjs = require('dayjs');
+const { getCar } = require('./queries');
 const Rental = require('./rental');
 const sqlite = require('sqlite3').verbose();
 const DBNAME = './rental.db'
@@ -11,7 +14,7 @@ const db = new sqlite.Database(DBNAME, err => {
 })
 
 const createRent = (row) => {
-  return new Rental( id_rentals, startDate, endDate, extradriver, distance, extra_insurance, driverAge, id_fees, id_car);
+  return new Rental(id_rentals, startDate, endDate, extradriver, distance, extra_insurance, driverAge, id_fees, id_car);
 }
 
 exports.getCategory = () => {
@@ -50,24 +53,21 @@ exports.getBrand = () => {
 
 exports.Car = (cat) => {
   console.log(`cat`, cat)
-  let params = "?" 
-  for (let param = 0; param < cat.length-1; param++) {
-      params += ", ?"
-    
-  }
- console.log(`params`, params)
-  return new Promise((resolve, reject) => { 
-    const query = `Select model, feesperday from cars Inner join
-     category cat  on cat.id_cat  = cars.id_cat 
-     where  cars.id_cat in ( ${params} ) limit 5  `  ;
+  let params = "?"
+  for (let param = 0; param < cat.length - 1; param++) {
+    params += ", ?"
 
-    db.all(query, cat ,(err, rows) => {
-      if(err)
-     { console.log(`query`, err)
-        reject(err);}
-      else if(rows.length === 0)
+  }
+ 
+  return new Promise((resolve, reject) => {
+     const query = getCar(params)
+    db.all(query, [...cat, ], (err, rows) => {
+      if (err) {
+        reject(err);
+      }
+      else if (rows.length === 0)
         resolve(undefined);
-      else{
+      else {
         resolve(rows);
       }
     });
@@ -79,7 +79,7 @@ exports.deleteRent = (id) => {
   return new Promise((resolve, reject) => {
     const query = 'DELETE FROM rentals  WHERE id_rental  = ?';
     db.run(query, [id], (err) => {
-      if(err)
+      if (err)
         reject(err);
       else
         resolve(null);
@@ -91,13 +91,12 @@ exports.deleteRent = (id) => {
 exports.getRent = (filter) => {
   return new Promise((resolve, reject) => {
     const query = 'SELECT * FROM rental';
-    db.all(query,  (err, rows) => {
-      if(err)
+    db.all(query, (err, rows) => {
+      if (err)
         reject(err);
-      else{
-        let rentals = rows.map( row => createRent(row));
-        
-        switch(filter){ 
+      else {
+        let rentals = rows.map(row => createRent(row));
+        switch (filter) {
           case "Past":
             rentals = rentals.filter(t => t.endDate.isSameOrBefore(isToday()));
             break;
@@ -107,13 +106,14 @@ exports.getRent = (filter) => {
           default:
             rentals = []; // unknown filter
         }
-        
         resolve(rentals);
       }
     })
 
   });
 }
+
+
 
 
 

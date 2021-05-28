@@ -8,21 +8,25 @@ import OPTION from './option_rent';
 import { Redirect } from 'react-router-dom'
 
 function MakeRental(props) {
-    const [cars, setCars] = useState([]);
-    const [submitted, setSubmitted] = useState(false)
+        
+    const [validated, setValidated] = useState(false);
+const [cars, setCars] = useState([]);
     const [loading, setLoading] = useState(true)
     const [details, setdetails] = useState([])
-    const [selectedCategory, setSelectedCategory] = useState([])
-    const [errorMessage, setErrorMessage] = useState({});
-    const [validated, setValidated] = useState(false);
     const [startDate, setStartdate] = useState('')
     const [endDate, setEnddate] = useState('')
+   
+    /////state of rental parameters
+    const [selectedCategory, setSelectedCategory] = useState([])
     const [driverAge, setDriverAge] = useState('')
     const [distance, setdistance] = useState('')
     const [extraInsurance, setExtraInsurance] = useState()
     const [interactiveConfig, setInteractiveConfig] = useState()
     const [extraDriver, setExtraDriver] = useState('')
 
+    const [errorMessage, setErrorMessage] = useState({});
+ 
+    const [submitted, setSubmitted] = useState(false)
     useEffect(() => {
 
         API.getValues().then(res => {
@@ -34,11 +38,11 @@ function MakeRental(props) {
     useEffect(() => {
         let a = []
         if (selectedCategory.length) {
-                API.getCar(selectedCategory)
-                .then(res=> console.log(`res`, res))
+            API.getCar(selectedCategory)
+                .then(res => setCars(res))
+
         }
         else setCars()
-      
 
     }, [selectedCategory])
     const handleSubmit = (event) => {
@@ -46,6 +50,10 @@ function MakeRental(props) {
         if (form.checkValidity()) {
             //    event.preventDefault(); 
             //     event.stopPropagation();
+             event.preventDefault()
+            if (endDate.diff(startDate, 'day') <0 ){ 
+                return false
+             }
             let rent = {
                 startDate: startDate,
                 endDate: endDate,
@@ -56,6 +64,7 @@ function MakeRental(props) {
                 distance: parseInt(distance),
                 interactiveConfig: interactiveConfig
             }
+            setSubmitted(true)
 
         }
         else {
@@ -74,6 +83,14 @@ function MakeRental(props) {
 
     return (
         <div>
+            {submitted && <Redirect to={{
+                pathname: '/display_car',
+                state: {
+                    startDate,
+                    endDate,
+                    cars
+                }
+            }}></Redirect>}
             <Form validated={validated} noValidate onSubmit={handleSubmit} >
                 <Row>
                     <DATE.StartDate startDate={startDate} setStartdate={setStartdate} />
