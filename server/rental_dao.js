@@ -14,7 +14,7 @@ const db = new sqlite.Database(DBNAME, err => {
 })
 
 const createRent = (row) => {
-  return new Rental(id_rentals, startDate, endDate, extradriver, distance, extra_insurance, driverAge, id_fees, id_car);
+  return new Rental(id_rental, startDate, endDate, extradriver, distance, extra_insurance, driverAge, id_fees, id_car);
 }
 
 exports.getCategory = () => {
@@ -58,10 +58,10 @@ exports.Car = (cat) => {
     params += ", ?"
 
   }
- 
+
   return new Promise((resolve, reject) => {
-     const query = getCar(params)
-    db.all(query, [...cat, ], (err, rows) => {
+    const query = getCar(params)
+    db.all(query, [...cat,], (err, rows) => {
       if (err) {
         reject(err);
       }
@@ -113,6 +113,21 @@ exports.getRent = (filter) => {
   });
 }
 
+
+exports.AddRental = (rental) => {
+  return new Promise((resolve, reject) => {
+    const sql = `INSERT INTO rentals ( startDate, endDate, extraDriver, distance, extraInsurance, driverAge, id_car, id_user, amount)
+    VALUES ();`
+    db.run(sql, [( rental.startDate, rental.endDate, rental.extraDriver, rental.distance, rental.extraInsurance, rental.driverAge, rental.id_car, rental.id_user, amount)], function (err) {
+      if (err) {
+        reject(err);
+        return;
+      }
+      resolve(this.lastID);
+    });
+  })
+
+}
 
 
 
