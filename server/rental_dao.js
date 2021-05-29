@@ -112,17 +112,23 @@ exports.getRent = (filter) => {
 
   });
 }
-
-
+`INSERT INTO rentals (id_rental, startDate, endDate, extraDriver, distance, extraInsurance, driverAge, id_car, id_user, amount)
+    VALUES (?, DATE(?), DATE(?) ,? ,? ,? ,? ,? ,?);`
+// 'Gabino',
 exports.AddRental = (rental) => {
   return new Promise((resolve, reject) => {
-    const sql = `INSERT INTO rentals ( startDate, endDate, extraDriver, distance, extraInsurance, driverAge, id_car, id_user, amount)
-    VALUES ();`
-    db.run(sql, [( rental.startDate, rental.endDate, rental.extraDriver, rental.distance, rental.extraInsurance, rental.driverAge, rental.id_car, rental.id_user, amount)], function (err) {
+    const sql = `INSERT INTO rentals ( startDate, endDate,
+       extraDriver, distance, extraInsurance, 
+      driverAge, id_car, id_user, amount)
+      VALUES ( ?, ? ,? ,? ,? ,? ,? ,?,?);`
+    db.run(sql,[ rental.startDate, rental.endDate, rental.extraDriver, rental.distance,
+       rental.extraInsurance, rental.driverAge, 
+      rental.id_car, rental.id_user, rental.amount],  function(err){
       if (err) {
         reject(err);
         return;
       }
+      console.log(this.lastID)
       resolve(this.lastID);
     });
   })

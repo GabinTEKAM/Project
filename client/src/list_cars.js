@@ -8,7 +8,7 @@ function CarData(props) {
      <td> {props.car.model}</td>
      <td> {props.car.amount}</td>
      <td>  
-         <Payment amount ={props.car.amount} /> </td>
+         <Payment rental={props.rental} amount ={props.car.amount} car = {props.car.id_car} /> </td>
 
    </> );
 }
@@ -18,7 +18,7 @@ function CarData(props) {
 function CarRow(props) {
     return (
       <tr>
-          <CarData  car= {props.car} />
+          <CarData  rental={props.rental} car= {props.car} />
       </tr>
     );
 }

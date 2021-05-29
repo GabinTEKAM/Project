@@ -6,15 +6,16 @@ const dayjs = require('dayjs')
 
 function DisplayCar(props) {
     const location = useLocation()
-    const [endDate, setEndDate] = useState(location.state.endDate)
-    const [startDate, setStartDate] = useState(location.state.startDate)
-    const [cars, setCars] = useState(location.state.cars)
+    const [rental, setRental] = useState(location.state?location.state:'')
+    console.log(`rental`, rental)
+    const [endDate, setEndDate] = useState(location.state?location.state.endDate:'')
+    const [startDate, setStartDate] = useState(location.state?location.state.startDate:'')
+    const [cars, setCars] = useState(location.state?location.state.cars:'')
     let days = dayjs(endDate).diff(dayjs(startDate), 'day')
     const [loading, setLoading] = useState(false)
     useEffect(() => {
-
         let test = cars
-        let car_price = test.map(car =>
+       test.map(car =>
             car.amount = (car.feesperday * days)
         )
         setCars(test)
@@ -29,8 +30,9 @@ function DisplayCar(props) {
         <Table>
             <ListBody.CarTitle />
             <tbody>
-            {cars.map(car =>
-               <ListBody.CarRow key={car.id_car } car = {car} />) }
+            {
+             cars.map(car =>
+                <ListBody.CarRow rental={rental} key={car.id_car } car = {car} />) }
        </tbody>
         </Table>   : '....wait.' }
         </div>

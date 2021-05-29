@@ -6,6 +6,7 @@ import Driver from './driver';
 import { CategoryBox } from "./list_checkbox"
 import OPTION from './option_rent';
 import { Redirect } from 'react-router-dom'
+import dayjs from 'dayjs';
 
 function MakeRental(props) {
         
@@ -23,9 +24,9 @@ const [cars, setCars] = useState([]);
     const [extraInsurance, setExtraInsurance] = useState()
     const [interactiveConfig, setInteractiveConfig] = useState()
     const [extraDriver, setExtraDriver] = useState('')
-
+    const [rental, setRental] = useState("")
     const [errorMessage, setErrorMessage] = useState({});
- 
+ let rent 
     const [submitted, setSubmitted] = useState(false)
     useEffect(() => {
 
@@ -54,16 +55,18 @@ const [cars, setCars] = useState([]);
             if (endDate.diff(startDate, 'day') <0 ){ 
                 return false
              }
-            let rent = {
-                startDate: startDate,
+            setRental({ 
+                startDate: dayjs(startDate).format('YYYY-MM-DD'),
                 endDate: endDate,
                 category: selectedCategory,
                 extraInsurance: extraInsurance,
                 extraDriver: parseInt(extraDriver),
                 driverAge: parseInt(driverAge),
                 distance: parseInt(distance),
-                interactiveConfig: interactiveConfig
-            }
+                interactiveConfig: interactiveConfig, 
+                cars:cars
+            })
+            console.log(`rental`, rental)
             setSubmitted(true)
 
         }
@@ -80,16 +83,12 @@ const [cars, setCars] = useState([]);
 
 
     }
-
+console.log(`rental`, rental)
     return (
         <div>
             {submitted && <Redirect to={{
                 pathname: '/display_car',
-                state: {
-                    startDate,
-                    endDate,
-                    cars
-                }
+                state:rental
             }}></Redirect>}
             <Form validated={validated} noValidate onSubmit={handleSubmit} >
                 <Row>

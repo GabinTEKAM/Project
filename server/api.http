@@ -1,7 +1,7 @@
 
 let  a =id_cat[]=cat23&id_cat[]=cat02
 ####
-GET http://localhost:3001/car/?a HTTP/1.1
+GET http://localhost:3001/car/ HTTP/1.1
 ####
 GET http://localhost:3001/category HTTP/1.1
 ####
@@ -9,8 +9,14 @@ GET http://localhost:3001/category HTTP/1.1
  POST http://localhost:3000/api/rental HTTP/1.1
  Content-Type: application/json
 
- 
-  {  
-      "startDate": "2021-05-11"
-
+ { 
+  "extraDriver": 1,
+    "amount": 80,
+"distance": 25,
+"driverAge": 25,
+"endDate": "2021-05-10",
+"extraInsurance": true,
+"id_car": "car002",
+"id_user": 1,
+"startDate": "2021-05-09"
 }

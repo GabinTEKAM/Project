@@ -19,6 +19,16 @@ async function getCar(category) {
     .then(res=> res.json())
     return response
 }
-let API = {getValues, getCar}
 
+
+async function addRental(rent) {
+    let response = await fetch('/api/rental', 
+    { 
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(rent)} )
+
+}
+
+let API = {getValues, getCar, addRental}
 export default API

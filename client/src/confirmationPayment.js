@@ -8,10 +8,7 @@ function SucessPayment(props) {
     const handleShow = () => setShow(true);
   
     return (
-      <>
-       <Button variant="primary" onClick={handleShow}>
-                Launch static backdrop modal
-        </Button>
+      <>       
   
         <Modal
           show={show}

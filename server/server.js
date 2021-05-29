@@ -36,13 +36,14 @@ app.get('/brand', (req, res) => {
         .catch( err  => res.status(500).json(err));
 });
 
-app.post("/api/rental", [
-    check('startDate.*.endDate').isDate({format: 'YYYY-MM-DD', strictMode: true}),
-    check('endDate').isAfter('startDate'),
-    check('id_cat.*.id_brand.*.*id_car').isAlphanumeric().isLength({min:1 , max:10 }), 
+app.post("/api/rental",
+ [
+    check('startDate').isDate({format: 'YYYY-MM-DD', strictMode: true}),
+    check('endDate').isDate({format: 'YYYY-MM-DD', strictMode: true}),
+    check('id_car').isLength({min:1 , max:10 }), 
     check('extraInsurance').isBoolean(), 
-    check('driverAge').isNumeric().isLength({min:18}),
-    check('extraDriver').isNumeric().isLength({min: 0}), 
+    check('driverAge').isInt(),
+    check('extraDriver').isInt(), 
     check('amount').isFloat()
 
 ], 
@@ -51,11 +52,13 @@ app.post("/api/rental", [
   if (!errors.isEmpty()) {
     return res.status(422).json({errors: errors.array()});
   }
-res.status(200).end();
  const rental = req.body
 dao.AddRental(rental)
-  .then(result=> res.status(209).json(result))
-  .catch(err => res.status(509).json(err))
+  .then(result=>{console.log(`result`, result)
+       res.status(209).json(result)})
+  .catch(err => {
+      console.log(`err`, err)
+      res.status(500).json(err)})
 
 }
 
@@ -69,3 +72,4 @@ app.delete('/deleterent/:id', (req, res) => {
 });
 
 app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}/`));
+
