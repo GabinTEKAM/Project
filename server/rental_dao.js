@@ -1,8 +1,7 @@
 'use strict'
 
 
-const dayjs = require('dayjs');
-const { getCar } = require('./queries');
+const { getCar, addRental, getVeh } = require('./queries');
 const Rental = require('./rental');
 const sqlite = require('sqlite3').verbose();
 const DBNAME = './rental.db'
@@ -52,7 +51,6 @@ exports.getBrand = () => {
 
 
 exports.Car = (cat) => {
-  console.log(`cat`, cat)
   let params = "?"
   for (let param = 0; param < cat.length - 1; param++) {
     params += ", ?"
@@ -112,29 +110,44 @@ exports.getRent = (filter) => {
 
   });
 }
-`INSERT INTO rentals (id_rental, startDate, endDate, extraDriver, distance, extraInsurance, driverAge, id_car, id_user, amount)
-    VALUES (?, DATE(?), DATE(?) ,? ,? ,? ,? ,? ,?);`
-// 'Gabino',
+
+// qdd nez rentql in db 
 exports.AddRental = (rental) => {
+  let values = [rental.startDate, rental.endDate, rental.extraDriver, rental.distance,
+  rental.extraInsurance, rental.driverAge,
+  rental.id_car, rental.id_user, rental.amount]
   return new Promise((resolve, reject) => {
-    const sql = `INSERT INTO rentals ( startDate, endDate,
-       extraDriver, distance, extraInsurance, 
-      driverAge, id_car, id_user, amount)
-      VALUES ( ?, ? ,? ,? ,? ,? ,? ,?,?);`
-    db.run(sql,[ rental.startDate, rental.endDate, rental.extraDriver, rental.distance,
-       rental.extraInsurance, rental.driverAge, 
-      rental.id_car, rental.id_user, rental.amount],  function(err){
+    const sql = addRental()
+    db.run(sql, values, function (err) {
       if (err) {
         reject(err);
         return;
       }
-      console.log(this.lastID)
       resolve(this.lastID);
     });
   })
 
 }
 
+
+// get the list of vehicle which have status free ( ie the enddate of car reservation is not higher or equal to startingdate of the new rental)
+exports.getveh=(date)=>{
+  let sql = getVeh()
+  return new Promise((resolve, reject) => {
+  db.all(sql, [date], (err, rows) => {
+    if (err) {
+      reject(err);
+    }
+    else if (rows.length === 0)
+    {console.log(`null`)
+      resolve(undefined);}
+    else 
+     { console.log('wybHSQBHDBYU?', rows)
+       resolve(rows);
+    }
+  });
+  })
+}
 
 
 

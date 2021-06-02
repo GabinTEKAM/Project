@@ -8,20 +8,20 @@ function Payment(props) {
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
-    const [car, setCar] = useState(props.car)
+    const car = props.car
     const [cvv, setCvv] = useState('')
     const [cardNumber, setCardNumber] = useState('')
     const [dateExp, setDateExp] = useState()
     const [validated, setValidated] = useState(false)
     const [submitted, setsubmitted] = useState(false)
-    const [rental, setRental] = useState(props.rental);
-    console.log(`rental`, rental)
+    const rental= props.rental;
+    const [reservationNumber, setReservationNumber] = useState("") 
+
     const handleSubmit = (event) => {
         console.log(`rental`, rental)
         event.preventDefault()
         const form = event.currentTarget;
         
-        console.log(`form`, form)
         if (form.checkValidity()) {
             console.log(`rental`, rental)
             let rent = {
@@ -36,9 +36,10 @@ function Payment(props) {
                 amount: props.amount
             }
             console.log(`renty`, rent)
-            API.addRental(rent)
+            API.addRental(rent).then(res=> { 
+                return setReservationNumber(res)})
             handleClose()
-            setsubmitted(false)
+            setsubmitted(true)
         }
         else {
            setValidated(true)
@@ -50,9 +51,9 @@ function Payment(props) {
     return (
         <>
             <Button variant="primary" onClick={handleShow}>
-                Launch static backdrop modal
+               Rent this car
         </Button>
-            {submitted && <SucessPayment /> }
+            {submitted && <SucessPayment reservationNumber ={reservationNumber} /> }
             <Modal
                 show={show}
                 onHide={handleClose}

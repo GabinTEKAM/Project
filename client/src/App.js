@@ -11,6 +11,8 @@ import MakeRental from "./makerental";
 import DisplayCar from './displaycar';
 import Payment from './payement';
 import  SuccesPayment  from "./confirmationPayment";
+import Login from './login';
+import Signup from './registration';
 
 function App() {
   return (
@@ -29,6 +31,12 @@ function App() {
             </Route>
             <Route path='/PuccesPayment'>
               <SuccesPayment />
+            </Route>
+            <Route path= '/login'>
+              <Login />
+            </Route>
+            <Route path='/signup'>
+              <Signup />
             </Route>
           </Switch >
         </Container>

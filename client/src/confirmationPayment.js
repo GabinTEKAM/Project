@@ -5,7 +5,6 @@ function SucessPayment(props) {
     const [show, setShow] = useState(true);
   
     const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
   
     return (
       <>       
@@ -22,7 +21,7 @@ function SucessPayment(props) {
           </Modal.Header>
           <Modal.Body>
             Your payment is successful 
-            your rental number is : 
+            your rental number is : {props.reservationNumber}
           </Modal.Body>
           <Modal.Footer>
             <Button variant="secondary" onClick={handleClose}>

@@ -20,3 +20,15 @@ GET http://localhost:3001/category HTTP/1.1
 "id_user": 1,
 "startDate": "2021-05-09"
 }
+
+#####
+
+GET http://localhost:3001/api/getveh?date=2021-05-11 HTTP/1.1
+
+
+##############
+
+POST http://localhost:3001/api/user HTTP/1.1
+ Content-Type: application/json
+
+{"email": "gabin@gabin.com", "name": "gabib", "surname": "j;hghjgt", "password": "vgvgvty"}

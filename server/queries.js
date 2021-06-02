@@ -8,7 +8,20 @@ exports.getCar = (params) => {
     `
 }
 
-const getRental = (date) => {
-    return ` 
-    `
+exports.addRental = () => {
+    return   `INSERT INTO rentals ( startDate, endDate,
+        extraDriver, distance, extraInsurance, 
+       driverAge, id_car, id_user, amount)
+       VALUES ( Date(?), DATE(?) ,? ,? ,? ,? ,? ,?,?);`
+    
+}
+
+exports.getVeh = ()=>{
+ return  ` SELECT id_car, model
+    FROM cars
+    where id_car
+    not IN (SELECT id_car 
+    from rentals 
+    where endDate >= ?);`
+
 }

@@ -26,7 +26,6 @@ const [cars, setCars] = useState([]);
     const [extraDriver, setExtraDriver] = useState('')
     const [rental, setRental] = useState("")
     const [errorMessage, setErrorMessage] = useState({});
- let rent 
     const [submitted, setSubmitted] = useState(false)
     useEffect(() => {
 
@@ -37,7 +36,6 @@ const [cars, setCars] = useState([]);
     }, [])
 
     useEffect(() => {
-        let a = []
         if (selectedCategory.length) {
             API.getCar(selectedCategory)
                 .then(res => setCars(res))
@@ -52,12 +50,14 @@ const [cars, setCars] = useState([]);
             //    event.preventDefault(); 
             //     event.stopPropagation();
              event.preventDefault()
+             event.stopPropagation();
+
             if (endDate.diff(startDate, 'day') <0 ){ 
                 return false
              }
             setRental({ 
                 startDate: dayjs(startDate).format('YYYY-MM-DD'),
-                endDate: endDate,
+                endDate: dayjs(endDate).format('YYYY-MM-DD'),
                 category: selectedCategory,
                 extraInsurance: extraInsurance,
                 extraDriver: parseInt(extraDriver),
